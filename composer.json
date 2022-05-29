@@ -1,0 +1,13 @@
+{
+    "autoload": {
+        "files": [
+            "helpers.php"
+        ],
+        "psr-4": {
+            "Alura\\Cursos\\": "src/"
+        }
+    },
+    "require": {
+        "doctrine/orm": "^2.6"
+    }
+}
