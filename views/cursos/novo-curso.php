@@ -12,12 +12,12 @@
       <h1>Novo curso</h1>
     </div>
 
-    <form action="">
+    <form action="/salvar-curso" method="post">
 		<div class="form-group">
 			<label for="descricao">Descrição</label>
 			<input type="text" name="descricao" class="form-control">
 		</div>
-		<button class="btn btn-primary">Cadastrar</button>
+		<button class="btn btn-primary">Salvar</button>
     </form>
 
     </ul>
