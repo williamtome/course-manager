@@ -16,6 +16,9 @@ switch ($request) {
     case '/novo-curso':
         $controller->create();
         break;
+    case '/salvar-curso':
+        $controller->store();
+        break;
     default:
         echo "Error 404!";
 }
