@@ -11,10 +11,10 @@ class CursosController
     private $repositorioDeCursos;
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct()
     {
         $this->entityManager = (new EntityManagerCreator())->getEntityManager();
-        $this->repositorioDeCursos = $entityManager
+        $this->repositorioDeCursos = $this->entityManager
             ->getRepository(Curso::class);
     }
 
