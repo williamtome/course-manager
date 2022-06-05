@@ -32,11 +32,7 @@ class CursosController
 
     public function store()
     {
-        $description = filter_input(
-            INPUT_POST,
-            'descricao',
-            FILTER_SANITIZE_STRING
-        );
+        $description = $this->validate('descricao');
 
         $course = new Curso();
         $course->setDescricao($description);
@@ -44,5 +40,14 @@ class CursosController
         $this->entityManager->flush();
 
         header('Location: /', false, 302);
+    }
+
+    protected function validate(string $field)
+    {
+        return filter_input(
+            INPUT_POST,
+            $field,
+            FILTER_SANITIZE_STRING
+        );
     }
 }
