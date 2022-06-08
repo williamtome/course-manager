@@ -42,12 +42,28 @@ class CursosController
         header('Location: /', false, 302);
     }
 
-    protected function validate(string $field)
+    /**
+     * @throws \Doctrine\ORM\Exception\ORMException
+     */
+    public function delete()
     {
-        return filter_input(
-            INPUT_POST,
-            $field,
-            FILTER_SANITIZE_STRING
-        );
+        $id = $this->validate('id', INPUT_GET, FILTER_VALIDATE_INT);
+
+        if (is_null($id) || !$id) {
+            header('Location: /');
+            return;
+        }
+
+        $course = $this->entityManager->getReference(Curso::class, $id);
+
+        $this->entityManager->remove($course);
+        $this->entityManager->flush();
+
+        header('Location: /');
+    }
+
+    protected function validate(string $field, string $method, string $filterType)
+    {
+        return filter_input($method, $field, $filterType);
     }
 }
