@@ -32,7 +32,7 @@ class CursosController
 
     public function store()
     {
-        $description = $this->validate('descricao');
+        $description = $this->validate('descricao', INPUT_POST, FILTER_SANITIZE_STRING);
 
         $course = new Curso();
         $course->setDescricao($description);
