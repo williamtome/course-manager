@@ -4,7 +4,6 @@ namespace Alura\Cursos\Controllers;
 
 use Alura\Cursos\Entity\Curso;
 use Alura\Cursos\Infra\EntityManagerCreator;
-use Doctrine\ORM\EntityManagerInterface;
 
 class CursosController
 {
@@ -54,7 +53,8 @@ class CursosController
             return;
         }
 
-        $course = $this->entityManager->getReference(Curso::class, $id);
+        $course = $this->entityManager
+                        ->getReference(Curso::class, $id);
 
         $this->entityManager->remove($course);
         $this->entityManager->flush();
