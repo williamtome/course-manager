@@ -18,6 +18,7 @@
 			<input type="text" name="descricao" class="form-control">
 		</div>
 		<button class="btn btn-primary">Salvar</button>
+        <a href="/" class="btn btn-default btn-sm">Voltar</a>
     </form>
 
     </ul>
