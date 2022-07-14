@@ -3,7 +3,14 @@
 if (!function_exists('view')) {
     function view(string $viewName, array $data = [])
     {
-        $cursos = $data;
+        $totalCourses = count($data);
+
+        if ($totalCourses == 0 || $totalCourses > 1) {
+            $cursos = $data;
+        } else {
+            $curso = $data[0];
+        }
+
         require __DIR__ . '/views/cursos/' . $viewName . '.php';
     }
 }
