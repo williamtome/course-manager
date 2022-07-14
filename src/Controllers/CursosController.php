@@ -41,6 +41,20 @@ class CursosController
         header('Location: /', false, 302);
     }
 
+    public function edit()
+    {
+        $id = $this->validate('id', INPUT_GET, FILTER_VALIDATE_INT);
+
+        if (is_null($id) || !$id) {
+            header('Location: /');
+            return;
+        }
+
+        $course = $this->repositorioDeCursos->find($id);
+
+        view('alterar-curso', [$course]);
+    }
+
     /**
      * @throws \Doctrine\ORM\Exception\ORMException
      */
