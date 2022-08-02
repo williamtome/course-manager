@@ -12,7 +12,7 @@
       <h1>Alterar curso <?= $curso->getDescricao(); ?></h1>
     </div>
 
-    <form action="/salvar-curso" method="post">
+    <form action="/atualizar-curso?id=<?= $curso->getId(); ?>" method="post">
 		<div class="form-group">
 			<label for="descricao">Descrição</label>
 			<input type="text"

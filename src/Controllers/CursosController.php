@@ -55,6 +55,26 @@ class CursosController
         view('alterar-curso', [$course]);
     }
 
+    public function update()
+    {
+        $id = $this->validate('id', INPUT_GET, FILTER_VALIDATE_INT);
+        $description = $this->validate('descricao', INPUT_POST, FILTER_SANITIZE_STRING);
+
+        if (is_null($id) || !$id) {
+            header('Location: /');
+            return;
+        }
+
+        $course = $this->repositorioDeCursos->find($id);
+        $course->setId($id);
+        $course->setDescricao($description);
+
+        $this->entityManager->merge($course);
+        $this->entityManager->flush();
+
+        header('Location: /', false, 302);
+    }
+
     /**
      * @throws \Doctrine\ORM\Exception\ORMException
      */
