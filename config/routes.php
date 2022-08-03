@@ -1,6 +1,7 @@
 <?php
 
 use Alura\Cursos\Controllers\CursosController;
+use Alura\Cursos\Controllers\LoginController;
 
 $id = $_GET['id'] ?? '';
 
@@ -11,6 +12,9 @@ $routes = [
     '/excluir-curso?id=' . $id => [CursosController::class, 'delete'],
     '/alterar-curso?id=' . $id => [CursosController::class, 'edit'],
     '/atualizar-curso?id=' . $id => [CursosController::class, 'update'],
+    '/login' => [LoginController::class, 'index'],
+    '/novo-usuario' => [LoginController::class, 'create'],
+    '/cadastrar-usuario' => [LoginController::class, 'store'],
 ];
 
 return $routes;
