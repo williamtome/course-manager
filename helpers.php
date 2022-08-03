@@ -11,6 +11,6 @@ if (!function_exists('view')) {
             $curso = $data[0];
         }
 
-        require __DIR__ . '/views/cursos/' . $viewName . '.php';
+        require __DIR__ . '/views/' . str_replace('.', '/', $viewName) . '.php';
     }
 }

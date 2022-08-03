@@ -21,12 +21,12 @@ class CursosController extends BaseController
     {
         $cursos = $this->repositorioDeCursos->findAll();
 
-        view('listar-cursos', $cursos);
+        view('cursos.listar-cursos', $cursos);
     }
 
     public function create()
     {
-        return view('novo-curso');
+        return view('cursos.novo-curso');
     }
 
     public function store()
@@ -52,7 +52,7 @@ class CursosController extends BaseController
 
         $course = $this->repositorioDeCursos->find($id);
 
-        view('alterar-curso', [$course]);
+        view('cursos.alterar-curso', [$course]);
     }
 
     public function update()
