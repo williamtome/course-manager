@@ -5,7 +5,7 @@ namespace Alura\Cursos\Controllers;
 use Alura\Cursos\Entity\Curso;
 use Alura\Cursos\Infra\EntityManagerCreator;
 
-class CursosController
+class CursosController extends BaseController
 {
     private $repositorioDeCursos;
     private $entityManager;
@@ -94,10 +94,5 @@ class CursosController
         $this->entityManager->flush();
 
         header('Location: /');
-    }
-
-    protected function validate(string $field, string $method, string $filterType)
-    {
-        return filter_input($method, $field, $filterType);
     }
 }
