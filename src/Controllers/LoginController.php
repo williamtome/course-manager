@@ -72,6 +72,8 @@ class LoginController extends BaseController
             return;
         }
 
+        $_SESSION['auth'] = true;
+
         header('Location: /');
     }
 }

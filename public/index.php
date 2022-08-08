@@ -10,6 +10,8 @@ if (!array_key_exists($path, $routes)) {
     exit();
 }
 
+session_start();
+
 $controllerClass = $routes[$path][0];
 $action = $routes[$path][1];
 
