@@ -2,7 +2,7 @@
 
 namespace Alura\Cursos\Controllers;
 
-use Alura\Armazenamento\Entity\Usuario;
+use Alura\Cursos\Entity\Usuario;
 use Alura\Cursos\Infra\EntityManagerCreator;
 
 class LoginController extends BaseController
@@ -38,16 +38,12 @@ class LoginController extends BaseController
         $email = $this->validate('email', INPUT_POST, FILTER_SANITIZE_EMAIL);
         $password = $this->validate('password', INPUT_POST, FILTER_SANITIZE_STRING);
 
-        if (is_null($email) || !$email) {
+        if (
+            (is_null($email) || !$email)
+            && (is_null($password) || !$password)
+        ) {
             // TODO: criar uma página HTML com a mensagem de erro.
             echo 'E-mail e/ou senha inválido';
-            return;
-        }
-
-        $userAlreadyExist = $this->userRepository->findOneBy(['email', $email]);
-
-        if (is_null($userAlreadyExist) || $userAlreadyExist) {
-            echo 'Usuário inválido';
             return;
         }
 
@@ -58,6 +54,24 @@ class LoginController extends BaseController
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        header('Location: /listar-cursos');
+        header('Location: /');
+    }
+
+    public function autenticate()
+    {
+        $email = $this->validate('email', INPUT_POST, FILTER_SANITIZE_EMAIL);
+        $password = $this->validate('password', INPUT_POST, FILTER_SANITIZE_STRING);
+
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+
+        if (
+            (is_null($email) || !$email)
+            && (is_null($password) || (is_null($user) || !$user->senhaEstaCorreta($password)))
+        ) {
+            echo 'E-mail e/ou senha inválido';
+            return;
+        }
+
+        header('Location: /');
     }
 }
