@@ -6,6 +6,16 @@ require __DIR__ . '/../header.php';
   <h1>Novo Usuário</h1>
 </div>
 
+<?php if (isset($_SESSION['message'])) : ?>
+  <div class="alert alert-<?= $_SESSION['message_type']; ?>">
+    <?= $_SESSION['message']; ?>
+  </div>
+<?php
+  unset($_SESSION['message_type']);
+  unset($_SESSION['message']);
+endif;
+?>
+
 <form action="/cadastrar-usuario" method="post">
   <div class="form-group">
     <label for="email">E-mail</label>

@@ -38,12 +38,22 @@ class LoginController extends BaseController
         $email = $this->validate('email', INPUT_POST, FILTER_SANITIZE_EMAIL);
         $password = $this->validate('password', INPUT_POST, FILTER_SANITIZE_STRING);
 
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+
+        if ($user) {
+            $_SESSION['message_type'] = 'danger';
+            $_SESSION['message'] = 'Cadastro inválido';
+            header('Location: /novo-usuario');
+            return;
+        }
+
         if (
             (is_null($email) || !$email)
             && (is_null($password) || !$password)
         ) {
-            // TODO: criar uma página HTML com a mensagem de erro.
-            echo 'E-mail e/ou senha inválido';
+            $_SESSION['message_type'] = 'danger';
+            $_SESSION['message'] = 'E-mail e/ou senha inválido';
+            header('Location: /novo-usuario');
             return;
         }
 
@@ -64,15 +74,20 @@ class LoginController extends BaseController
         $email = $this->validate('email', INPUT_POST, FILTER_SANITIZE_EMAIL);
         $password = $this->validate('password', INPUT_POST, FILTER_SANITIZE_STRING);
 
-        if (is_null($email) || !$email) {
-            echo 'E-mail inválido';
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+
+        if (is_null($email) || is_null($user)) {
+            $_SESSION['message_type'] = 'danger';
+            $_SESSION['message'] = 'E-mail inválido';
+            header('Location: /login');
             return;
         }
 
-        $user = $this->userRepository->findOneBy(['email' => $email]);
 
-        if (!is_null($password) && !$user->senhaEstaCorreta($password)) {
-            echo 'Usuário inválido.';
+        if (!$user->senhaEstaCorreta($password)) {
+            $_SESSION['message_type'] = 'danger';
+            $_SESSION['message'] = 'Usuário inválido';
+            header('Location: /login');
             return;
         }
 
