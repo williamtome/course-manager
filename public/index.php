@@ -14,7 +14,12 @@ session_start();
 
 $isLoginRoute = str_contains($path, 'login');
 
-if (!isset($_SESSION['auth']) && !$isLoginRoute) {
+if (
+    !isset($_SESSION['auth'])
+    && !$isLoginRoute
+    && $path !== '/novo-usuario'
+    && $path !== '/cadastrar-usuario'
+) {
     header('Location: /login');
     exit();
 }
