@@ -22,6 +22,7 @@ class EntityManagerCreator
             $paths,
             $isDevMode
         );
+
         return EntityManager::create($dbParams, $config);
     }
 }
