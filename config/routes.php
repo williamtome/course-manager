@@ -13,7 +13,8 @@ $routes = [
     '/alterar-curso?id=' . $id => [CursosController::class, 'edit'],
     '/atualizar-curso?id=' . $id => [CursosController::class, 'update'],
     '/login' => [LoginController::class, 'index'],
-    '/logar' => [LoginController::class, 'autenticate'],
+    '/realiza-login' => [LoginController::class, 'autenticate'],
+    '/logout' => [LoginController::class, 'logout'],
     '/novo-usuario' => [LoginController::class, 'create'],
     '/cadastrar-usuario' => [LoginController::class, 'store'],
 ];

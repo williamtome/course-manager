@@ -54,6 +54,8 @@ class LoginController extends BaseController
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
+        $_SESSION['auth'] = true;
+
         header('Location: /');
     }
 
@@ -62,18 +64,27 @@ class LoginController extends BaseController
         $email = $this->validate('email', INPUT_POST, FILTER_SANITIZE_EMAIL);
         $password = $this->validate('password', INPUT_POST, FILTER_SANITIZE_STRING);
 
+        if (is_null($email) || !$email) {
+            echo 'E-mail inválido';
+            return;
+        }
+
         $user = $this->userRepository->findOneBy(['email' => $email]);
 
-        if (
-            (is_null($email) || !$email)
-            && (is_null($password) || (is_null($user) || !$user->senhaEstaCorreta($password)))
-        ) {
-            echo 'E-mail e/ou senha inválido';
+        if (!is_null($password) && !$user->senhaEstaCorreta($password)) {
+            echo 'Usuário inválido.';
             return;
         }
 
         $_SESSION['auth'] = true;
 
         header('Location: /');
+    }
+
+    public function logout()
+    {
+        session_destroy();
+
+        header('Location: /login');
     }
 }

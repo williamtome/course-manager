@@ -12,6 +12,13 @@ if (!array_key_exists($path, $routes)) {
 
 session_start();
 
+$isLoginRoute = str_contains($path, 'login');
+
+if (!isset($_SESSION['auth']) && !$isLoginRoute) {
+    header('Location: /login');
+    exit();
+}
+
 $controllerClass = $routes[$path][0];
 $action = $routes[$path][1];
 
