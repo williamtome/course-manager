@@ -4,9 +4,13 @@ namespace Alura\Cursos\Controllers;
 
 use Alura\Cursos\Entity\Curso;
 use Alura\Cursos\Infra\EntityManagerCreator;
+use Alura\Cursos\Traits\FlashMessageTrait;
+use Alura\Cursos\Traits\ViewRenderTrait;
 
 class CursosController extends BaseController
 {
+    use FlashMessageTrait, ViewRenderTrait;
+
     private $repositorioDeCursos;
     private $entityManager;
 
@@ -21,12 +25,12 @@ class CursosController extends BaseController
     {
         $cursos = $this->repositorioDeCursos->findAll();
 
-        view('cursos.listar-cursos', $cursos);
+        $this->view('cursos.listar-cursos', $cursos);
     }
 
     public function create()
     {
-        return view('cursos.novo-curso');
+        return $this->view('cursos.novo-curso');
     }
 
     public function store()
@@ -38,6 +42,8 @@ class CursosController extends BaseController
         $this->entityManager->persist($course);
         $this->entityManager->flush();
 
+        $this->defineMessage('success', 'Curso cadastrado com sucesso.');
+
         header('Location: /', false, 302);
     }
 
@@ -46,13 +52,14 @@ class CursosController extends BaseController
         $id = $this->validate('id', INPUT_GET, FILTER_VALIDATE_INT);
 
         if (is_null($id) || !$id) {
+            $this->defineMessage('danger', 'Erro ao editar curso.');
             header('Location: /');
             return;
         }
 
         $course = $this->repositorioDeCursos->find($id);
 
-        view('cursos.alterar-curso', [$course]);
+        $this->view('cursos.alterar-curso', [$course]);
     }
 
     public function update()
@@ -61,6 +68,7 @@ class CursosController extends BaseController
         $description = $this->validate('descricao', INPUT_POST, FILTER_SANITIZE_STRING);
 
         if (is_null($id) || !$id) {
+            $this->defineMessage('danger', 'Erro ao atualizar curso.');
             header('Location: /');
             return;
         }
@@ -71,6 +79,8 @@ class CursosController extends BaseController
 
         $this->entityManager->merge($course);
         $this->entityManager->flush();
+
+        $this->defineMessage('success', 'Curso atualizado com sucesso.');
 
         header('Location: /', false, 302);
     }
@@ -83,15 +93,18 @@ class CursosController extends BaseController
         $id = $this->validate('id', INPUT_GET, FILTER_VALIDATE_INT);
 
         if (is_null($id) || !$id) {
+            $this->defineMessage('danger', 'Erro ao remover curso.');
             header('Location: /');
             return;
         }
 
         $course = $this->entityManager
-                        ->getReference(Curso::class, $id);
+            ->getReference(Curso::class, $id);
 
         $this->entityManager->remove($course);
         $this->entityManager->flush();
+
+        $this->defineMessage('success', 'Curso removido com sucesso.');
 
         header('Location: /');
     }
