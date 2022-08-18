@@ -7,6 +7,7 @@ $id = $_GET['id'] ?? '';
 
 $routes = [
     '/' => [CursosController::class, 'index'],
+    '/cursos/json' => [CursosController::class, 'toJson'],
     '/novo-curso' => [CursosController::class, 'create'],
     '/salvar-curso' => [CursosController::class, 'store'],
     '/excluir-curso?id=' . $id => [CursosController::class, 'delete'],

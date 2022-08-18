@@ -108,4 +108,13 @@ class CursosController extends BaseController
 
         header('Location: /');
     }
+
+    public function toJson()
+    {
+        $courses = $this->repositorioDeCursos->findAll();
+
+        header('application/json');
+
+        echo json_encode($courses);
+    }
 }
