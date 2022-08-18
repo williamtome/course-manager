@@ -3,6 +3,7 @@
 namespace Alura\Cursos\Controllers;
 
 use Alura\Cursos\Entity\Curso;
+use Alura\Cursos\Factories\XMLFactory;
 use Alura\Cursos\Infra\EntityManagerCreator;
 use Alura\Cursos\Traits\FlashMessageTrait;
 use Alura\Cursos\Traits\ViewRenderTrait;
@@ -122,16 +123,7 @@ class CursosController extends BaseController
     {
         $courses = $this->repositorioDeCursos->findAll();
 
-        $coursesInXml = new \SimpleXMLElement('<cursos/>');
-
-        foreach ($courses as $course) {
-            $courseInXml = $coursesInXml->addChild('curso');
-            $courseInXml->addChild('id', $course->getId());
-            $courseInXml->addChild('descricao', $course->getDescricao());
-        }
-
-        header('Content-Type: application/xml');
-
-        echo $coursesInXml->asXML();
+        $xmlFactory = new XMLFactory();
+        echo $xmlFactory->create($courses, '<cursos/>');
     }
 }
