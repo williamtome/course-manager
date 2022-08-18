@@ -117,4 +117,21 @@ class CursosController extends BaseController
 
         echo json_encode($courses);
     }
+
+    public function toXml()
+    {
+        $courses = $this->repositorioDeCursos->findAll();
+
+        $coursesInXml = new \SimpleXMLElement('<cursos/>');
+
+        foreach ($courses as $course) {
+            $courseInXml = $coursesInXml->addChild('curso');
+            $courseInXml->addChild('id', $course->getId());
+            $courseInXml->addChild('descricao', $course->getDescricao());
+        }
+
+        header('Content-Type: application/xml');
+
+        echo $coursesInXml->asXML();
+    }
 }
