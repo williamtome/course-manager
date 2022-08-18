@@ -24,8 +24,26 @@ if (
     exit();
 }
 
+$psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
+$creator = new ServerRequestCreator(
+    $psr17Factory, // ServerRequestFactory
+    $psr17Factory, // UrlFactory
+    $psr17Factory, // UploadedFileFactory
+    $psr17Factory // StreamFactory
+);
+
+$request = $creator->fromGlobals();
+
 $controllerClass = $routes[$path][0];
 $action = $routes[$path][1];
 
 $controller = new $controllerClass();
-$controller->{$action}();
+$response = $controller->{$action}($request);
+
+foreach ($response->getHeaders() as $name => $values) {
+    foreach ($values as $value) {
+        header(sprintf('%s: %s', $name, $value), false);
+    }
+}
+
+echo $response->getBody();
