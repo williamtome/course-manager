@@ -113,7 +113,7 @@ class CursosController extends BaseController
     {
         $courses = $this->repositorioDeCursos->findAll();
 
-        header('application/json');
+        header('Content-Type: application/json');
 
         echo json_encode($courses);
     }
